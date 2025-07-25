@@ -2,8 +2,10 @@ package com.example.cadastroninjas.NinjasService;
 import com.example.cadastroninjas.NinjasModel.NinjaModel;
 import com.example.cadastroninjas.NinjasRepository.NinjaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,8 @@ public class NinjaService {
         this.ninjaRepository = ninjaRepository;
     }
 
+
+
     //Listar todos os meus ninjas
     public List<NinjaModel> listarNinjas() {
         return ninjaRepository.findAll();
@@ -31,9 +35,23 @@ public class NinjaService {
     }
 
     // adicionar ninja (Create)
+    public NinjaModel criarNinja(NinjaModel ninjaCriado) {// passando
+      return ninjaRepository.save(ninjaCriado);
+    }
 
-    public NinjaModel criarNinja(NinjaModel ninja) {// passando
-      return ninjaRepository.save(ninja);
+
+    //deletar Ninja(Deletar) tem que ser metodo void e ele também não retorna nada
+    public void deletarNinjaPorId(Long id) {
+         ninjaRepository.deleteById(id);
+    }
+
+    //Alterar dados (Update)
+    public NinjaModel alterarNinjaPorId(Long id, NinjaModel ninjaAlterado) {
+      if(ninjaRepository.existsById(id)){
+          ninjaAlterado.setId(id);
+          return ninjaRepository.save(ninjaAlterado);
+      }
+          return null;
     }
 
 }
