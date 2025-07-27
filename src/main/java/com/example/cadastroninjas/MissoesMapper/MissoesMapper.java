@@ -2,7 +2,9 @@ package com.example.cadastroninjas.MissoesMapper;
 
 import com.example.cadastroninjas.MissoesDTO.MissoesDTO;
 import com.example.cadastroninjas.MissoesModel.MissoesModel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MissoesMapper {
 
     public MissoesModel map(MissoesDTO missoesDTO) {
@@ -23,6 +25,8 @@ public class MissoesMapper {
         missoesDTO.setNome(missoesModel.getNome());
         missoesDTO.setNinjas(missoesModel.getNinjas());
         missoesDTO.setDificuldade(missoesModel.getDificuldade());
+
+
         return missoesDTO;
     }
 }

@@ -1,4 +1,5 @@
 package com.example.cadastroninjas.NinjasController;
+import com.example.cadastroninjas.NinjasDTO.NinjaDTO;
 import com.example.cadastroninjas.NinjasModel.NinjaModel;
 import com.example.cadastroninjas.NinjasService.NinjaService;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,10 @@ public class NinjaController {
 
     // adicionar ninja (Create)
     @PostMapping("/criar")
-    public NinjaModel criarNinja(@RequestBody NinjaModel ninja){ // pega os dados do corpo da requisição que vai ser enviada pelo usuário
-       return ninjaService.criarNinja(ninja);
+//    public NinjaModel criarNinja(@RequestBody NinjaModel ninja){ // pega os dados do corpo da requisição que vai ser enviada pelo usuário
+//        return ninjaService.criarNinja(ninja); aqui tambem muda sai do model e vai DTO na service
+    public NinjaDTO criarNinja(@RequestBody NinjaDTO ninjaDTO){ // pega os dados do corpo da requisição que vai ser enviada pelo usuário
+       return ninjaService.criarNinja(ninjaDTO);
     }
 
     //Listar todos os ninjas(Read)
