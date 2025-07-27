@@ -1,49 +1,58 @@
 package com.example.cadastroninjas.MissoesController;
+import com.example.cadastroninjas.MissoesModel.MissoesModel;
+
+import com.example.cadastroninjas.MissoesService.MissoesService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("missoes")
 public class MissoesController {
 
 
+    private MissoesService missoesService;
+
+    public MissoesController(MissoesService missoesService) {
+        this.missoesService = missoesService;
+    }
+
     //Mostrar todos as missoes(Read)
-    @GetMapping("/todos")
-    public String mostrarTodasAsMissoes(){
-        return "Mostrar todas as missões";
+    @GetMapping("/listar")
+    public List<MissoesModel> listarTodasAsMissoes() {
+        return missoesService.listarTodasAsMissoes();
     }
 
 
     // adicionar missão (Create)
     @PostMapping("/criar")
-    public String criarMissao(){
-        return "Criando missão";
+    public MissoesModel criarMissao(@RequestBody MissoesModel missoesModel) {
+        return missoesService.criarMissao(missoesModel);
     }
 
-    //Alterar dados (Update)
-    @PutMapping("/alterarId")
-    public String alterarMissaoPorId(){
-        return "Miss]ao alterada por id";}
+    //listar missao por id (Update)
+    @PutMapping("/listar/{id}")
+    public MissoesModel listarMissaoPorId(@PathVariable Long id) {
+        return missoesService.listarMissaoPorId(id);
+    }
+
 
     //deletar Ninja(Deletar)
-    @DeleteMapping("/deletarId")
-    public String deletarMissaoPorId(){
-        return "Deletando missão por id";
+    @DeleteMapping("/deletar/{id}")
+    public void deletarMissaoPorId(@PathVariable Long id) {
+        missoesService.deletarMissaoPorId(id);
     }
 
 
-
-
-
-    //Mostrar ninja por id (Read)
-    @GetMapping("/todosId")
-    public String MostrarMissaoPorId(){
-        return "Mostrar missão pelo id";
+    //alterar misao  por id (Read)
+    @PutMapping("/alterar/{id}")
+    public MissoesModel alterarMissao(@PathVariable Long id, @RequestBody MissoesModel missoesModel) {
+        return missoesService.alterarMissaoPorId(id, missoesModel);
     }
-
-
-
-
-
 
 
 }
+
+
+
+
