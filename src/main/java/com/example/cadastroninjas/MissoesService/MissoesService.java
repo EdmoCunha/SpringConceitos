@@ -1,4 +1,6 @@
 package com.example.cadastroninjas.MissoesService;
+import com.example.cadastroninjas.MissoesDTO.MissoesDTO;
+import com.example.cadastroninjas.MissoesMapper.MissoesMapper;
 import com.example.cadastroninjas.MissoesModel.MissoesModel;
 import com.example.cadastroninjas.MissoesRepository.MissoesRepository;
 import org.springframework.stereotype.Service;
@@ -8,10 +10,12 @@ import java.util.Optional;
 @Service
 public class MissoesService {
 
+    private final MissoesMapper missoesMapper;
     private MissoesRepository missoesRepository;
 
-    public MissoesService(MissoesRepository missoesRepository) {
+    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper) {
         this.missoesRepository = missoesRepository;
+        this.missoesMapper = missoesMapper;
     }
 
     //Listar todas as minhas missões
@@ -27,9 +31,16 @@ public class MissoesService {
     }
 
     // adicionar missao (Create)
-    public MissoesModel criarMissao(MissoesModel missaoCriada) {// passando
-        return missoesRepository.save(missaoCriada);
+//    public MissoesModel criarMissao(MissoesModel missaoCriada) {// passando
+//        return missoesRepository.save(missaoCriada);}
+
+    public MissoesDTO criarMissao(MissoesDTO missaocriada) {
+        MissoesModel missao = missoesMapper.map(missaocriada);
+        missao = missoesRepository.save(missao);
+        return missoesMapper.map(missao);
     }
+
+
 
 
     //deletar missão (Deletar) tem que ser metodo void e ele também não retorna nada

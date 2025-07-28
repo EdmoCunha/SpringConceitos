@@ -1,4 +1,5 @@
 package com.example.cadastroninjas.MissoesController;
+import com.example.cadastroninjas.MissoesDTO.MissoesDTO;
 import com.example.cadastroninjas.MissoesModel.MissoesModel;
 
 import com.example.cadastroninjas.MissoesService.MissoesService;
@@ -26,8 +27,10 @@ public class MissoesController {
 
     // adicionar missão (Create)
     @PostMapping("/criar")
-    public MissoesModel criarMissao(@RequestBody MissoesModel missoesModel) {
-        return missoesService.criarMissao(missoesModel);
+//    public MissoesModel criarMissao(@RequestBody MissoesModel missoesModel) {
+//        return missoesService.criarMissao(missoesModel);    }
+    public MissoesDTO criarMissao(@RequestBody MissoesDTO missoesDTO) {
+        return missoesService.criarMissao(missoesDTO);
     }
 
     //listar missao por id (Update)
