@@ -38,23 +38,52 @@ public class NinjaController {
 
     //Listar todos os ninjas(Read)
     @GetMapping("/listar")
-    public List<NinjaDTO> listarNinjas() {
-        return ninjaService.listarNinjas();
+    public ResponseEntity<List<NinjaDTO>> listarNinjas() {
+        List<NinjaDTO> ninjas = ninjaService.listarNinjas();
+        return ResponseEntity.ok(ninjas);
     }
+//    public List<NinjaDTO> listarNinjas() {
+//        return ninjaService.listarNinjas();
+//    }
 
     //Listar ninja por id (Read)
     @GetMapping("/listar/{id}")
-    public NinjaDTO listarNinjasPorId(@PathVariable Long id) { // @pathVariable é para salvar o id que o usuario passar
-        return ninjaService.listarNinjasPorId(id);
+
+    public ResponseEntity<?> listarNinjasPorId(@PathVariable Long id) { // @pathVariable é para salvar o id que o usuario passar
+        NinjaDTO ninja = ninjaService.listarNinjasPorId(id);// aqui no "?" estou passando como generic porque string não deixava eu voltar o json
+        if(ninja != null){
+            return ResponseEntity.ok(ninja);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+
     }
+//    public NinjaDTO listarNinjasPorId(@PathVariable Long id) { // @pathVariable é para salvar o id que o usuario passar
+//        return ninjaService.listarNinjasPorId(id);
+//    }
 
 
     //Alterar dados (Update)
     @PutMapping("/alterar/{id}")
-    public NinjaDTO alterarNinjaPorId(@PathVariable Long id, @RequestBody NinjaDTO ninjaAlterado) {
-        return ninjaService.alterarNinjaPorId(id, ninjaAlterado);
+
+    public ResponseEntity<?> alterarNinjaPorId(@PathVariable Long id, @RequestBody NinjaDTO ninjaAlterado) {
+        NinjaDTO ninjaAlteradoNinja = ninjaService.alterarNinjaPorId(id, ninjaAlterado);
+        if(ninjaAlteradoNinja != null) {
+            return ResponseEntity.ok(ninjaAlteradoNinja);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ninja id " + id + "não encontrado");
+
+
+
+        }
+
 
     }
+//    public NinjaDTO alterarNinjaPorId(@PathVariable Long id, @RequestBody NinjaDTO ninjaAlterado) {
+//        return ninjaService.alterarNinjaPorId(id, ninjaAlterado);
+//
+//    }
 
 
     //deletar Ninja(Deletar)
