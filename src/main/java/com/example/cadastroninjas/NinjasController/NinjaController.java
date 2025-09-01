@@ -2,6 +2,10 @@ package com.example.cadastroninjas.NinjasController;
 import com.example.cadastroninjas.NinjasDTO.NinjaDTO;
 import com.example.cadastroninjas.NinjasModel.NinjaModel;
 import com.example.cadastroninjas.NinjasService.NinjaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +32,11 @@ public class NinjaController {
 //       return ninjaService.criarNinja(ninjaDTO);
 //    }
     @PostMapping("/criar")
+    @Operation(summary = "Cria uma ninja ", description = "Rota cria um ninja e salva no banco de dados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Ninja criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro na criação do Ninja")
+    })
     public ResponseEntity<String> criarNinja(@RequestBody NinjaDTO ninjaDTO) {
         NinjaDTO novoNinja = ninjaService.criarNinja(ninjaDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Ninja criado com sucesso" + novoNinja.getNome()
@@ -38,6 +47,11 @@ public class NinjaController {
 
     //Listar todos os ninjas(Read)
     @GetMapping("/listar")
+    @Operation(summary = "Lista todos os ninjas ", description = "Rota lista todos os ninjas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ninjas listados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro na listagem do ninja")
+    })
     public ResponseEntity<List<NinjaDTO>> listarNinjas() {
         List<NinjaDTO> ninjas = ninjaService.listarNinjas();
         return ResponseEntity.ok(ninjas);
@@ -48,6 +62,11 @@ public class NinjaController {
 
     //Listar ninja por id (Read)
     @GetMapping("/listar/{id}")
+    @Operation(summary = "Lista ninja pelo seu Id ", description = "Rota lista um ninja")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Missão criada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro na criação da missão")
+    })
 
     public ResponseEntity<?> listarNinjasPorId(@PathVariable Long id) { // @pathVariable é para salvar o id que o usuario passar
         NinjaDTO ninja = ninjaService.listarNinjasPorId(id);// aqui no "?" estou passando como generic porque string não deixava eu voltar o json
@@ -66,7 +85,16 @@ public class NinjaController {
 
     //Alterar dados (Update)
     @PutMapping("/alterar/{id}")
-    public ResponseEntity<?> alterarNinjaPorId(@PathVariable Long id, @RequestBody NinjaDTO ninjaAlterado) {
+    @Operation(summary = "Cria uma missão ", description = "Rota cria uma missão e insere no banco de dados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ninja alterado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Ninja não alterado")
+    })
+    public ResponseEntity<?> alterarNinjaPorId(
+            @Parameter(description = "Usuário manda o ID no caminho da requisição")
+            @PathVariable Long id,
+            @Parameter(description = "Usuário manda os dados no corpo da requisição")
+            @RequestBody NinjaDTO ninjaAlterado) {
         NinjaDTO ninjaAlteradoNinja = ninjaService.alterarNinjaPorId(id, ninjaAlterado);
         if(ninjaAlteradoNinja != null) {
             return ResponseEntity.ok(ninjaAlteradoNinja);
